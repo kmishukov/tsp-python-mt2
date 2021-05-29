@@ -312,13 +312,16 @@ def are_incident(branch1: Branch, branch2: Branch) -> bool:
            branch1.nodeB == branch2.nodeA or branch1.nodeB == branch2.nodeB
 
 
-def mt_func(solution, best_solution_record):
-    print(os.getpid(), "working")
+def mt_func(solution, record):
+    if testing is False:
+        print(os.getpid(), "working")
     process_queue = Queue()
     process_queue.enqueue(solution)
     while process_queue.size() > 0:
-        make_branches(process_queue, best_solution_record)
-    print("Process finished: ", os.getpid())
+        make_branches(process_queue, record)
+    if testing is False:
+        print("Process finished: ", os.getpid())
+
 
 if __name__ == '__main__':
     start = time.time()
@@ -329,9 +332,6 @@ if __name__ == '__main__':
     initial_queue = Queue()
     initial_solution = Solution(matrix)
     initial_queue.enqueue(initial_solution)
-    # m = multiprocessing.Manager()
-    # sharedQueue = m.Queue()
-    # sharedQueue.put(initial_solution)
 
     # Counter of processes, who actually work;
     p_counter = Value('i', 0)
